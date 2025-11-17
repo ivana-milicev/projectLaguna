@@ -10,7 +10,7 @@ public class HomePage extends BasePage {
     //    Locators:
 
     private By searchInputField = By.id("pretraga_rec");
-    private By loginButton = By.xpath("//*[[normalize-space(.)=\"Prijava\"]");
+    private By loginButton = By.xpath("//*[normalize-space(.)=\"Prijava\"]");
     public By loginProof = By.xpath("//*[normalize-space(.)=\"Odjava\"]");
 
 
@@ -32,12 +32,12 @@ public class HomePage extends BasePage {
         find(searchInputField).submit();
     }
 
-    public boolean validLoginProofCheck() {
-        return isDisplayed(loginProof);
+    public String validLoginProofCheck() {
+        return getText(loginProof);
     }
 
-    public boolean invalidLoginProofCheck() {
-        return isDisplayed(loginButton);
+    public String invalidLoginProofCheck() {
+        return getText(loginButton);
     }
 
 }

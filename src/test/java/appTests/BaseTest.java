@@ -10,13 +10,14 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import pages.BasePage;
+import util.ConfigReader;
 
 import java.time.Duration;
 
 public class BaseTest {
 
-    protected WebDriver driver;
-    protected BasePage basePage;
+    protected static WebDriver driver;
+    protected static BasePage basePage;
 
 
 //    Annotations:
@@ -26,21 +27,21 @@ public class BaseTest {
 
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
         //        max time to wait for a page load
-        driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(20));
+        driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(30));
         //        max time for asynchronous JS run
-        basePage = new BasePage(driver, Duration.ofSeconds(10));
+        basePage = new BasePage(driver, Duration.ofSeconds(30));
     }
 
     @AfterClass
     public static void afterClass() throws Exception {
-        driver.quit();
+            driver.quit();
     }
 
     @Before
     public void setUp() throws Exception {
-        basePage.navigateTo("https://laguna.rs/");
+        basePage.navigateTo(ConfigReader.get("base.url"));
     }
 
     @After

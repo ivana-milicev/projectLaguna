@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import pages.HomePage;
 import pages.LoginPage;
+import util.ConfigReader;
 
 import java.time.Duration;
 
@@ -17,13 +18,10 @@ public class LoginTest extends BaseTest {
 
 //    Tests:
 
-
     @Test
     public void validLoginTest() {
         homePage.clickOnLoginButton();
-
-        String email
-        loginPage.login("ivanans90@hotmail.com", "Y4qvB.yVLLDrC7m");
+        loginPage.login(ConfigReader.get("valid.email"), ConfigReader.get("valid.password"));
 
         String validLoginProof = homePage.validLoginProofCheck();
 
@@ -33,11 +31,11 @@ public class LoginTest extends BaseTest {
     @Test
     public void invalidLoginTest() {
         homePage.clickOnLoginButton();
-        loginPage.login("ivanans90@hotmail.co", "Y4qvB.yVLLDrC7m");
+        loginPage.login(ConfigReader.get("invalid.email"), ConfigReader.get("invalid.password"));
 
         String invalidLoginProof = homePage.invalidLoginProofCheck();
 
-        Assert.assertTrue("Valid login proof should contain text 'Prijava'", invalidLoginProof.contains("Prijava"));
+        Assert.assertTrue("Invalid login proof should contain text 'Prijava'", invalidLoginProof.contains("Prijava"));
     }
 
     @Test
@@ -47,6 +45,6 @@ public class LoginTest extends BaseTest {
 
         String invalidLoginProof = homePage.invalidLoginProofCheck();
 
-        Assert.assertTrue("Valid login proof should contain text 'Prijava'", invalidLoginProof.contains("Prijava"));
+        Assert.assertTrue("Login proof should contain text 'Prijava' when fields are empty", invalidLoginProof.contains("Prijava"));
     }
 }
