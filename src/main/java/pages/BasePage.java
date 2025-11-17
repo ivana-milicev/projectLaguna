@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.Objects;
 
 public class BasePage {
@@ -69,7 +70,11 @@ public class BasePage {
     }
 
     public boolean isDisplayed(By locator) {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).isDisplayed();
+        try {
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).isDisplayed();
+        } catch (TimeoutException | NoSuchElementException e) {
+            return false;
+        }
     }
 
 
@@ -108,9 +113,9 @@ public class BasePage {
     //    waitForJQueryIdle is a helper method (sometimes found in Selenium test frameworks) that makes your test script pause until all active jQuery Ajax requests finish.
     public void waitForJQueryIdle() {
         try {
-            wait.until(d -> (Long) js.executeScript("return window.jQuery != null && jQuery.active === 0") == 1L);
-        } catch (JavascriptException ignored) {
-            // jQuery not present; skip
+            wait.until(d -> Boolean.TRUE.equals(js.executeScript("return (window.jQuery && jQuery.active === 0);")));
+        } catch (JavascriptException | TimeoutException ignored) {
+            // jQuery not present or timeout — just proceed
         }
     }
 
@@ -181,6 +186,14 @@ public class BasePage {
         driver.switchTo().frame(waitForVisible(locator));
     }
 
+    public void switchToDefaultContent() {
+        driver.switchTo().defaultContent();
+    }
+
+    public void switchToParentFrame() {
+        driver.switchTo().parentFrame();
+    }
+
 
 
     //    Alerts
@@ -203,9 +216,12 @@ public class BasePage {
     }
 
     public void resolveHtmlAlertIfPresent(WebDriver driver) {
-        WebElement okBtn = driver.findElement(By.xpath("//button[text()='OK']"));
-        if (okBtn.isDisplayed()) {
-            okBtn.click();
+        List<WebElement> okButtons = driver.findElements(By.xpath("//button[normalize-space(.)='OK' or normalize-space(.)='Ok' or normalize-space(.)='ok']"));
+        if (!okButtons.isEmpty()) {
+            WebElement okBtn = okButtons.get(0);
+            if (okBtn.isDisplayed() && okBtn.isEnabled()) {
+                okBtn.click();
+            }
         }
     }
 
@@ -218,8 +234,7 @@ public class BasePage {
 
     public void handleAlert(WebDriver driver, boolean accept) {
         try {
-            Alert alert = new WebDriverWait(driver, Duration.ofSeconds(5))
-                    .until(ExpectedConditions.alertIsPresent());
+            Alert alert = wait.until(ExpectedConditions.alertIsPresent());
             if (accept) {
                 alert.accept();
             } else {
@@ -230,6 +245,16 @@ public class BasePage {
         }
     }
 
+    // Resolve html "OK" button if present (safer)
+    public void resolveHtmlAlertIfPresent() {
+        List<WebElement> okButtons = driver.findElements(By.xpath("//button[normalize-space(.)='OK' or normalize-space(.)='Ok' or normalize-space(.)='ok']"));
+        if (!okButtons.isEmpty()) {
+            WebElement okBtn = okButtons.get(0);
+            if (okBtn.isDisplayed() && okBtn.isEnabled()) {
+                okBtn.click();
+            }
+        }
+    }
 
 
     //    Uploads
@@ -252,7 +277,7 @@ public class BasePage {
     }
 
     protected void sleep(long millis) {
-        try { Thread.sleep(millis); } catch (InterruptedException ignored) { }
+        try { Thread.sleep(millis); } catch (InterruptedException ignored) { Thread.currentThread().interrupt(); }
     }
 
 }

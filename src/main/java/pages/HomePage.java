@@ -2,7 +2,6 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
 
@@ -10,10 +9,9 @@ public class HomePage extends BasePage {
 
     //    Locators:
 
-    private By searchInputFieldLocator = By.id("pretraga_rec");
-    private By loginButtonLocator = By.xpath("//*[text()=\"Prijava\"]");
-    public By validLoginProofLocator = By.xpath("//*[text()=\"Odjava\"]");
-    public By invalidLoginProofLocator = By.xpath("//*[text()=\"Prijava\"]");
+    private By searchInputField = By.id("pretraga_rec");
+    private By loginButton = By.xpath("//*[[normalize-space(.)=\"Prijava\"]");
+    public By loginProof = By.xpath("//*[normalize-space(.)=\"Odjava\"]");
 
 
 //    Constructor:
@@ -26,22 +24,20 @@ public class HomePage extends BasePage {
 //    Actions:
 
     public void clickOnLoginButton() {
-        click(loginButtonLocator);
+        click(loginButton);
     }
 
-    public void searchFunctionality(String inputText) {
-        driver.findElement(searchInputFieldLocator).sendKeys(inputText);
-        driver.findElement(searchInputFieldLocator).submit();
+    public void search(String inputText) {
+        type(searchInputField, inputText);
+        find(searchInputField).submit();
     }
 
-    public String validLoginProofCheck() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(validLoginProofLocator));
-        return driver.findElement(validLoginProofLocator).getText();
+    public boolean validLoginProofCheck() {
+        return isDisplayed(loginProof);
     }
 
-    public String invalidLoginProofCheck() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(invalidLoginProofLocator));
-        return driver.findElement(invalidLoginProofLocator).getText();
+    public boolean invalidLoginProofCheck() {
+        return isDisplayed(loginButton);
     }
 
 }

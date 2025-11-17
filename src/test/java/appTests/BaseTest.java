@@ -15,8 +15,8 @@ import java.time.Duration;
 
 public class BaseTest {
 
-    protected static WebDriver driver;
-    protected static BasePage basePage;
+    protected WebDriver driver;
+    protected BasePage basePage;
 
 
 //    Annotations:
@@ -28,7 +28,7 @@ public class BaseTest {
         driver.manage().window().maximize();
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
         //        max time to wait for a page load
-        driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(10));
+        driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(20));
         //        max time for asynchronous JS run
         basePage = new BasePage(driver, Duration.ofSeconds(10));
     }

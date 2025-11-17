@@ -30,14 +30,14 @@ public class BuyerPage extends BasePage {
 //    Actions:
 
     public void buyerDataFillIn(String name, String email, String country, String phone, String street, String streetNumber, String zipcode) {
-        driver.findElement(nameInputFieldLocator).sendKeys("Bugs Bunny");
-        driver.findElement(getEmailInputFieldLocator).sendKeys("email@example.com");
-        driver.findElement(choseCountryButtonLocator).sendKeys("Srbija");
+        type(nameInputFieldLocator, "Bugs Bunny");
+        type(getEmailInputFieldLocator, "email@example.com");
+        type(choseCountryButtonLocator, "Srbija");
         driver.findElement(choseCountryButtonLocator).submit();
-        driver.findElement(telephoneInputFieldLocator).sendKeys("641234567");
-        driver.findElement(streetInputFieldLocator).sendKeys("My Street");
-        driver.findElement(streetNumberInputFieldLocator).sendKeys("10");
-        driver.findElement(zipCodeInputFieldLocator).sendKeys("21000");
+        type(telephoneInputFieldLocator, "641234567");
+        type(streetInputFieldLocator, "My Street");
+        type(streetNumberInputFieldLocator, "10");
+        type(zipCodeInputFieldLocator, "21000");
         driver.findElement(zipCodeInputFieldLocator).submit();
         click(nextButtonLocator);
 

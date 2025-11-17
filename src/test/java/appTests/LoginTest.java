@@ -21,7 +21,9 @@ public class LoginTest extends BaseTest {
     @Test
     public void validLoginTest() {
         homePage.clickOnLoginButton();
-        loginPage.loginFunctionality("ivanans90@hotmail.com", "Y4qvB.yVLLDrC7m");
+
+        String email
+        loginPage.login("ivanans90@hotmail.com", "Y4qvB.yVLLDrC7m");
 
         String validLoginProof = homePage.validLoginProofCheck();
 
@@ -31,7 +33,7 @@ public class LoginTest extends BaseTest {
     @Test
     public void invalidLoginTest() {
         homePage.clickOnLoginButton();
-        loginPage.loginFunctionality("ivanans90@hotmail.co", "Y4qvB.yVLLDrC7m");
+        loginPage.login("ivanans90@hotmail.co", "Y4qvB.yVLLDrC7m");
 
         String invalidLoginProof = homePage.invalidLoginProofCheck();
 
@@ -41,7 +43,7 @@ public class LoginTest extends BaseTest {
     @Test
     public void emptyFieldsLoginTest() {
         homePage.clickOnLoginButton();
-        loginPage.loginFunctionality("", "");
+        loginPage.login("", "");
 
         String invalidLoginProof = homePage.invalidLoginProofCheck();
 
