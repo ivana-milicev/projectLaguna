@@ -9,8 +9,10 @@ public class SearchPage extends BasePage {
 
 //    Locators:
 
-    private By resultsPageHeadlineLocator = By.xpath("//*[@id=\"spisak-knjiga-knjige\"]//*[@class=\"naslov-sredina\"]");
-    private By productLocator = By.xpath("//*[@class=\"naslov\" and @title=\"na drini ćuprija laguna knjige\"]");
+//    private By loginButton = By.xpath("//*[normalize-space(.)=\"Prijava\"]");
+    private By searchInputField = By.id("pretraga_rec");
+    private By resultsPageHeadline = By.xpath("//*[@id=\"spisak-knjiga-knjige\"]//*[@class=\"naslov-sredina\"]");
+    private By product = By.xpath("//*[@class=\"naslov\" and @title=\"na drini ćuprija laguna knjige\"]");
 
 
 //    Constructor:
@@ -20,11 +22,23 @@ public class SearchPage extends BasePage {
     }
 
 
-//    Actions:
+//    Methods:
 
-    public void addToCartFunctionality() {
-        click(productLocator);
+//    public void clickOnLoginButton() {
+//        click(loginButton);
+//    }
+
+    public void search(String inputText) {
+        type(searchInputField, inputText);
+        find(searchInputField).submit();
     }
 
+    public boolean isSearchOk(String searchInput) {
+        return isDisplayed(resultsPageHeadline);
+    }
+
+    public void selectProduct() {
+        click(product);
+    }
 
 }

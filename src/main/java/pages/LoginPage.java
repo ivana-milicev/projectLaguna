@@ -9,6 +9,8 @@ public class LoginPage extends BasePage {
 
 //    Locators:
 
+    private By loginButton = By.xpath("//*[normalize-space(.)=\"Prijava\"]");
+    private By loginProof = By.xpath("//*[normalize-space(.)=\"Odjava\"]");
     private By emailInputField = By.id("broj-f");
     private By passwordInputField = By.id("lozinka-f");
     private By submitInputField = By.id("form-prijava-s");
@@ -21,12 +23,21 @@ public class LoginPage extends BasePage {
     }
 
 
-//    Actions:
+//    Methods:
 
     public void login(String email, String password) {
+        click(loginButton);
         type(emailInputField, email);
         type(passwordInputField, password);
         click(submitInputField);
+    }
+
+    public boolean validLoginProofCheck() {
+        return isDisplayed(loginProof);
+    }
+
+    public boolean invalidLoginProofCheck() {
+        return isDisplayed(loginButton);
     }
 
     // Optional helpers (uncomment / adapt if your site shows error messages)

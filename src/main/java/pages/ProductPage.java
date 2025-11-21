@@ -9,9 +9,10 @@ public class ProductPage extends BasePage {
 
 //    Locators:
 
-    private By productPageHeadlineLocator = By.xpath("//*[@id=\"sadrzaj\"]//*[@class=\"row hidden-sm hidden-xs podaci\"]//*[@class=\"naslov\"]");
-    private By addToCartButtonLocator = By.id("dugme-korpa");
-    private By cartButtonLocator = By.id("korpa_broj");
+    protected By productPageHeadline = By.xpath("//*[@id=\"sadrzaj\"]//*[@class=\"row hidden-sm hidden-xs podaci\"]//*[@class=\"naslov\"]");
+    private By addToCartButton = By.id("dugme-korpa");
+    private By cartButton = By.id("korpa_broj");
+
 
 
 //    Constructor:
@@ -22,9 +23,16 @@ public class ProductPage extends BasePage {
 
 //    Actions:
 
-    public void addToCartFunctionality() {
-        click(addToCartButtonLocator);
-        click(cartButtonLocator);
+    public boolean isProductSelected(String productName) {
+        return isDisplayed(productPageHeadline);
+    }
+
+    public void addToCart() {
+        click(addToCartButton);
+    }
+
+    public void clickOnCartButton() {
+        click(cartButton);
     }
 
 }

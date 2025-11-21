@@ -1,7 +1,9 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
 
@@ -9,8 +11,9 @@ public class PaymentPage extends BasePage {
 
 //    Locators:
 
-    private By paymentMethodLocator = By.xpath("//*[text()=\"Platnom karticom - dostava kurirskom službom\"]");
-    private By nextButtonLocator = By.xpath("//*[text()=\"Dalje\"]");
+    private By paymentMethod = By.xpath("//*[contains(text(),'Izaberite način plaćanja')]");
+    private By creditCard = By.xpath("//*[text()=\"Platnom karticom - dostava kurirskom službom\"]");
+    private By nextButton = By.xpath("//*[text()=\"Dalje\"]");
 
 
 //    Constructor:
@@ -20,11 +23,21 @@ public class PaymentPage extends BasePage {
     }
 
 
-//    Actions:
+//    Methods:
+
+    public boolean paymentPresenceCheck() {
+        return isDisplayed(paymentMethod);
+    }
 
     public void clickOnCreditCard() {
-        click(paymentMethodLocator);
-        click(nextButtonLocator);
+        click(creditCard);
+    }
+
+    public void clickOnNextButton() {
+        closeGdprIfVisible();
+        WebElement next = find(nextButton);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", next);
+        click(nextButton);
     }
 
 }

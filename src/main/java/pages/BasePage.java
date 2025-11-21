@@ -256,6 +256,19 @@ public class BasePage {
         }
     }
 
+    private By gdprBox = By.id("gdpr-box");
+    private By gdprCloseButton = By.cssSelector(".gdpr-box .close-gdpr"); // adjust if needed
+
+    public void closeGdprIfVisible() {
+        try {
+            WebElement box = driver.findElement(gdprBox);
+            if (box.isDisplayed()) {
+                box.findElement(gdprCloseButton).click();
+                wait.until(ExpectedConditions.invisibilityOfElementLocated(gdprBox));
+            }
+        } catch (Exception ignored) {}
+    }
+
 
     //    Uploads
     public void uploadFile(By inputLocator, String absolutePath) {
