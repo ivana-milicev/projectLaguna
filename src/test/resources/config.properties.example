@@ -1,0 +1,19 @@
+valid.email = your_email@example.com
+valid.password = your_password_here
+
+invalid.email = invalid@example.com
+invalid.password = wrongpassword
+
+base.url = https://laguna.rs/
+
+search.input = ivo andric
+product.title = Na Drini \u0107uprija
+
+# Buyer data fill in - buyFlowTest:
+buyer.name = Bugs Bunny
+buyer.email = your_email@example.com
+buyer.country = Srbija
+buyer.phone = 641234567
+buyer.street = My Street
+buyer.streetNumber = 10
+buyer.city = 21000 Novi Sad
