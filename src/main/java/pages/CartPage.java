@@ -11,11 +11,13 @@ public class CartPage extends BasePage {
 
 //    Locators:
 
-//    private By cartContentButton = By.xpath("//*[text()=\"1. Sadržaj korpe\"]");
-    private By productInCart = By.xpath("//*[@class=\"naslov\" and text()=\"Na Drini ćuprija\"]");
-    private By removeItemButton = By.cssSelector(".uklanjanje");
-    private By quantityDropdown = By.cssSelector("select[name='kolicina']");
+    private By productTitle(String product) {
+        return By.xpath("//*[@class=\"naslov\" and text()='" + product + "']");
+    }
     private By nextButton = By.xpath("//*[text()=\"Dalje\"]");
+    private By removeProductButton = By.xpath("//*[text()=\"Brisanje\"]");
+    private By okButton = By.xpath("//*[text()=\"OK\"]");
+    private By emptyCartMessage = By.cssSelector(".cart-empty, .empty-msg");
 
 
 //    Constructor:
@@ -27,8 +29,8 @@ public class CartPage extends BasePage {
 
 //    Methods:
 
-    public boolean isProductInCart(String productName) {
-        return isDisplayed(productInCart);
+    public boolean isProductInCart(String product) {
+        return isDisplayed(productTitle(product));
     }
 
     public void clickOnNextButton() {
@@ -38,15 +40,23 @@ public class CartPage extends BasePage {
         click(nextButton);
     }
 
-    public void removeItem() {
+    public void removeFromCart() {
         closeGdprIfVisible();
-        click(removeItemButton);
+        WebElement remove = find(removeProductButton);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", remove);
+        click(removeProductButton);
     }
 
-//    // Example additional method (optional)
-//    public void changeQuantity(String value) {
-//        closeGdprIfVisible();
-//        selectFromDropdown(quantityDropdown, value);
-//    }
+    public void clickOkToRemove() {
+        click(okButton);
+    }
 
+    public boolean isProductRemoved(String product) {
+        waitForInvisible(productTitle(product));
+
+        boolean productStillExists = isPresent(productTitle(product));
+        boolean emptyCartVisible = isDisplayed(emptyCartMessage);
+
+        return !productStillExists;
+    }
 }

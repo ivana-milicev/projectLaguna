@@ -1,7 +1,6 @@
 package appTests;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import pages.LoginPage;
 import util.ConfigReader;
@@ -12,12 +11,7 @@ public class LoginTest extends BaseTest {
 
 //    Objects:
 
-    LoginPage loginPage;
-
-    @Before
-    public void initPages() {
-        LoginPage loginPage = new LoginPage(driver, Duration.ofSeconds(20));
-    }
+    LoginPage loginPage = new LoginPage(driver, Duration.ofSeconds(20));
 
 
 //    Tests:

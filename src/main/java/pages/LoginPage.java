@@ -40,9 +40,4 @@ public class LoginPage extends BasePage {
         return isDisplayed(loginButton);
     }
 
-    // Optional helpers (uncomment / adapt if your site shows error messages)
-    // private final By loginError = By.cssSelector(".login-error");
-    // public boolean isLoginErrorVisible() { return isDisplayed(loginError); }
-    // public String getLoginErrorText() { return getText(loginError); }
-
 }

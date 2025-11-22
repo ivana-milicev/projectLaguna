@@ -36,7 +36,7 @@ public class BaseTest {
 
     @AfterClass
     public static void afterClass() throws Exception {
-            driver.quit();
+        driver.quit();
     }
 
     @Before

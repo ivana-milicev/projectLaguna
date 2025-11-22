@@ -30,7 +30,6 @@ public class BasePage {
     }
 
 
-
     //    Page/JS/AJAX readiness
     public void waitForPageToLoad() {
         wait.until(d -> Objects.equals(js.executeScript("return document.readyState"), "complete"));
@@ -41,6 +40,7 @@ public class BasePage {
     }
 
 
+
     //    Navigation
     public void navigateTo(String url) {
         driver.get(url);
@@ -48,10 +48,12 @@ public class BasePage {
     }
 
 
+
     //    Core finders
     public WebElement find(By locator) {
         return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
+
 
 
     //    Element actions (with built-in waits)
@@ -75,6 +77,10 @@ public class BasePage {
         } catch (TimeoutException | NoSuchElementException e) {
             return false;
         }
+    }
+
+    public boolean isPresent(By locator) {
+        return !driver.findElements(locator).isEmpty();
     }
 
 

@@ -23,13 +23,12 @@ public class BuyFlowTest extends BaseTest {
 
 //    Tests:
 
-
     @Test
     public void buyFlowTest() {
         loginPage.login(ConfigReader.get("valid.email"), ConfigReader.get("valid.password"));
 
         searchPage.search(ConfigReader.get("search.input"));
-        searchPage.selectProduct();
+        searchPage.selectProduct(ConfigReader.get("product.title"));
 
         productPage.addToCart();
         productPage.clickOnCartButton();
