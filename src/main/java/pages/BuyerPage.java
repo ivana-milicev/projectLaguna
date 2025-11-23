@@ -28,10 +28,6 @@ public class BuyerPage extends BasePage {
     private By nextButton = By.id("nastaviDalje");
 
 
-//    NAPRAVITI SMOKE TEST OD LOG IN DO KRAJA KUPOVINE = BuyFlow
-
-
-
 //    Constructor:
 
     public BuyerPage(WebDriver driver, Duration timeout) {

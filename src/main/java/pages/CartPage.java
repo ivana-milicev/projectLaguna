@@ -11,13 +11,15 @@ public class CartPage extends BasePage {
 
 //    Locators:
 
-    private By productTitle(String product) {
-        return By.xpath("//*[@class=\"naslov\" and text()='" + product + "']");
+    private By productInCart(String product) {
+        return By.xpath(".//a[@class='naslov' and contains(text(),'" + product + "')]");
     }
     private By nextButton = By.xpath("//*[text()=\"Dalje\"]");
     private By removeProductButton = By.xpath("//*[text()=\"Brisanje\"]");
+//    private By productForRemoval(String product) {
+//        return By.xpath("//div[contains(@class,'korpa-knjiga-box')]//a[@class='naslov' and contains(text(),'" + product + "')]");
+//    }
     private By okButton = By.xpath("//*[text()=\"OK\"]");
-    private By emptyCartMessage = By.cssSelector(".cart-empty, .empty-msg");
 
 
 //    Constructor:
@@ -30,8 +32,9 @@ public class CartPage extends BasePage {
 //    Methods:
 
     public boolean isProductInCart(String product) {
-        return isDisplayed(productTitle(product));
+        return isDisplayed(productInCart(product));
     }
+
 
     public void clickOnNextButton() {
         closeGdprIfVisible();
@@ -47,16 +50,14 @@ public class CartPage extends BasePage {
         click(removeProductButton);
     }
 
-    public void clickOkToRemove() {
+    public void clickOkToRemove(String product) {
         click(okButton);
+        waitForInvisible(productInCart(product));
     }
 
     public boolean isProductRemoved(String product) {
-        waitForInvisible(productTitle(product));
-
-        boolean productStillExists = isPresent(productTitle(product));
-        boolean emptyCartVisible = isDisplayed(emptyCartMessage);
-
-        return !productStillExists;
+        waitForInvisible(productInCart(product));
+        return !isPresent(productInCart(product));
     }
+
 }

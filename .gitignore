@@ -39,3 +39,6 @@ build/
 
 ### Test resources (secrets, configs) ###
 src/test/resources/config.properties
+
+### Screenshots ###
+screenshots/

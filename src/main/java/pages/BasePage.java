@@ -35,10 +35,6 @@ public class BasePage {
         wait.until(d -> Objects.equals(js.executeScript("return document.readyState"), "complete"));
     }
 
-    public void waitForPageLoadComplete() {
-        wait.until(webDriver -> Objects.equals(js.executeScript("return document.readyState"), "complete"));
-    }
-
 
 
     //    Navigation
@@ -203,40 +199,6 @@ public class BasePage {
 
 
     //    Alerts
-    public String getAlertTextAndAccept() {
-        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-        String text = alert.getText();
-        alert.accept();
-        return text;
-    }
-
-    public void alertAccept() {
-        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-        alert.accept();
-    }
-
-    public void acceptAlert(WebDriver driver) {
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.alertIsPresent())
-                .accept();
-    }
-
-    public void resolveHtmlAlertIfPresent(WebDriver driver) {
-        List<WebElement> okButtons = driver.findElements(By.xpath("//button[normalize-space(.)='OK' or normalize-space(.)='Ok' or normalize-space(.)='ok']"));
-        if (!okButtons.isEmpty()) {
-            WebElement okBtn = okButtons.get(0);
-            if (okBtn.isDisplayed() && okBtn.isEnabled()) {
-                okBtn.click();
-            }
-        }
-    }
-
-    public void dismissAlertIfPresent() {
-        try {
-            Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-            alert.dismiss();
-        } catch (TimeoutException ignored) { }
-    }
 
     public void handleAlert(WebDriver driver, boolean accept) {
         try {
@@ -295,7 +257,7 @@ public class BasePage {
         click(locator);
     }
 
-    protected void sleep(long millis) {
+    public void sleep(long millis) {
         try { Thread.sleep(millis); } catch (InterruptedException ignored) { Thread.currentThread().interrupt(); }
     }
 
