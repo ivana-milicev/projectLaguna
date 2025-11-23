@@ -16,9 +16,6 @@ public class CartPage extends BasePage {
     }
     private By nextButton = By.xpath("//*[text()=\"Dalje\"]");
     private By removeProductButton = By.xpath("//*[text()=\"Brisanje\"]");
-//    private By productForRemoval(String product) {
-//        return By.xpath("//div[contains(@class,'korpa-knjiga-box')]//a[@class='naslov' and contains(text(),'" + product + "')]");
-//    }
     private By okButton = By.xpath("//*[text()=\"OK\"]");
 
 
