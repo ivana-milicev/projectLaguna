@@ -34,18 +34,21 @@ jobs:
         uses: browser-actions/setup-chrome@latest
 
       - name: Run Smoke Tests
+        env:
+          VALID_EMAIL: ${{ secrets.TEST_EMAIL }}
+          VALID_PASSWORD: ${{ secrets.TEST_PASSWORD }}
         run: mvn clean test -Dtest=SmokeTestSuite
 
       - name: Upload Test Results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: selenium-test-results
           path: target/surefire-reports/
 
       - name: Upload Screenshots
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: selenium-screenshots
           path: screenshots/
