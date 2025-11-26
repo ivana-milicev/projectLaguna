@@ -34,10 +34,30 @@ jobs:
 
       - name: Run Smoke Tests
         env:
+          # Authentication
           VALID_EMAIL: ${{ secrets.TEST_EMAIL }}
           VALID_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+
+          # Invalid credentials for testing
+          INVALID_EMAIL: invalid@example.com
+          INVALID_PASSWORD: wrongpassword
+
+          # Configuration
           BASE_URL: https://laguna.rs/
           BROWSER: chrome
+
+          # Search data
+          SEARCH_INPUT: ivo andric
+          PRODUCT_TITLE: Na Drini
+
+          # Buyer data for checkout
+          BUYER_NAME: Bugs Bunny
+          BUYER_EMAIL: ${{ secrets.TEST_EMAIL }}
+          BUYER_COUNTRY: Srbija
+          BUYER_PHONE: 641234567
+          BUYER_STREET: My Street
+          BUYER_STREET_NUMBER: 10
+          BUYER_CITY: 21000 Novi Sad
         run: mvn clean test -Dtest=SmokeTestSuite
 
       - name: Upload Test Results
