@@ -18,9 +18,6 @@ public class CartTest extends BaseTest {
     private ProductPage productPage;
     private CartPage cartPage;
 
-    private static final String SEARCH_INPUT = ConfigReader.get("search.input");
-    private static final String PRODUCT_TITLE = ConfigReader.get("product.title");
-
 //    Setup:
 
     @Before
@@ -36,8 +33,11 @@ public class CartTest extends BaseTest {
 
     @Test
     public void isProductInCartTest() {
-        searchPage.search(SEARCH_INPUT);
-        searchPage.selectProduct(PRODUCT_TITLE);
+        String searchInput = ConfigReader.get("search.input");
+        String productTitle = ConfigReader.get("product.title");
+
+        searchPage.search(searchInput);
+        searchPage.selectProduct(productTitle);
 
         int cartCountBefore = productPage.getCartCount();
 
@@ -47,20 +47,23 @@ public class CartTest extends BaseTest {
 
         productPage.clickOnCartButton();
 
-        Assert.assertTrue("The selected product should be in cart", cartPage.isProductInCart(PRODUCT_TITLE));
+        Assert.assertTrue("The selected product should be in cart", cartPage.isProductInCart(productTitle));
     }
 
     @Test
     public void removeFromCartTest() {
-        searchPage.search(SEARCH_INPUT);
-        searchPage.selectProduct(PRODUCT_TITLE);
+        String searchInput = ConfigReader.get("search.input");
+        String productTitle = ConfigReader.get("product.title");
+
+        searchPage.search(searchInput);
+        searchPage.selectProduct(productTitle);
 
         productPage.addToCart();
         productPage.clickOnCartButton();
 
         cartPage.removeFromCart();
-        cartPage.clickOkToRemove(PRODUCT_TITLE);
+        cartPage.clickOkToRemove(productTitle);
 
-        Assert.assertTrue("Product was NOT removed from the cart!", cartPage.isProductRemoved(PRODUCT_TITLE));
+        Assert.assertTrue("Product was NOT removed from the cart!", cartPage.isProductRemoved(productTitle));
     }
 }

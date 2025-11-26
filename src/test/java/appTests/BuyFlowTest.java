@@ -21,17 +21,6 @@ public class BuyFlowTest extends BaseTest {
     private CheckoutPage checkoutPage;
 
 
-    private static final String SEARCH_INPUT = ConfigReader.get("search.input");
-    private static final String PRODUCT_TITLE = ConfigReader.get("product.title");
-    private static final String BUYER_NAME = ConfigReader.get("buyer.name");
-    private static final String BUYER_EMAIL = ConfigReader.get("buyer.email");
-    private static final String BUYER_COUNTRY = ConfigReader.get("buyer.country");
-    private static final String BUYER_PHONE = ConfigReader.get("buyer.phone");
-    private static final String BUYER_STREET = ConfigReader.get("buyer.street");
-    private static final String BUYER_STREET_NUMBER = ConfigReader.get("buyer.streetNumber");
-    private static final String BUYER_CITY = ConfigReader.get("buyer.city");
-
-
 //    Setup:
 
     @Before
@@ -51,15 +40,25 @@ public class BuyFlowTest extends BaseTest {
 
     @Test
     public void buyFlowTest() {
-        searchPage.search(SEARCH_INPUT);
-        searchPage.selectProduct(PRODUCT_TITLE);
+        String searchInput = ConfigReader.get("search.input");
+        String productTitle = ConfigReader.get("product.title");
+        String buyerName = ConfigReader.get("buyer.name");
+        String buyerEmail = ConfigReader.get("buyer.email");
+        String buyerCountry = ConfigReader.get("buyer.country");
+        String buyerPhone = ConfigReader.get("buyer.phone");
+        String buyerStreet = ConfigReader.get("buyer.street");
+        String buyerStreetNumber = ConfigReader.get("buyer.streetNumber");
+        String buyerCity = ConfigReader.get("buyer.city");
+
+        searchPage.search(searchInput);
+        searchPage.selectProduct(productTitle);
 
         productPage.addToCart();
         productPage.clickOnCartButton();
 
         cartPage.clickOnNextButton();
 
-        buyerPage.buyerDataFillIn(BUYER_NAME, BUYER_EMAIL, BUYER_COUNTRY, BUYER_PHONE, BUYER_STREET, BUYER_STREET_NUMBER, BUYER_CITY);
+        buyerPage.buyerDataFillIn(buyerName, buyerEmail, buyerCountry, buyerPhone, buyerStreet, buyerStreetNumber, buyerCity);
         buyerPage.clickOnNextButton();
 
         paymentPage.clickOnCreditCard();

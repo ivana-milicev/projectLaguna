@@ -14,32 +14,32 @@ public class LoginTest extends BaseTest {
 
     private LoginPage loginPage;
 
-    private static final String VALID_EMAIL = ConfigReader.get("valid.email");
-    private static final String VALID_PASSWORD = ConfigReader.get("valid.password");
-    private static final String INVALID_EMAIL = ConfigReader.get("invalid.email");
-    private static final String INVALID_PASSWORD = ConfigReader.get("invalid.password");
-
-
 //    Setup:
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         loginPage = new LoginPage(driver, BaseTest.DEFAULT_TIMEOUT);
-        }
+    }
 
 
 //    Tests:
 
     @Test
     public void validLoginTest() {
-        loginPage.login(VALID_EMAIL, VALID_PASSWORD);
+        String validEmail = ConfigReader.get("valid.email");
+        String validPassword = ConfigReader.get("valid.password");
+
+        loginPage.login(validEmail, validPassword);
         Assert.assertTrue("Valid login proof should contain text 'Odjava'", loginPage.validLoginProofCheck());
     }
 
     @Test
     public void invalidLoginTest() {
-        loginPage.login(INVALID_EMAIL, INVALID_PASSWORD);
+        String invalidEmail = ConfigReader.get("invalid.email");
+        String invalidPassword = ConfigReader.get("invalid.password");
+
+        loginPage.login(invalidEmail, invalidPassword);
         Assert.assertTrue("Invalid login proof should contain text 'Prijava'", loginPage.invalidLoginProofCheck());
     }
 

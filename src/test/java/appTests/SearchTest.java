@@ -13,8 +13,6 @@ public class SearchTest extends BaseTest {
 
     private SearchPage searchPage;
 
-    private static final String SEARCH_INPUT = ConfigReader.get("search.input");
-
 //    Setup:
 
     @Before
@@ -28,7 +26,8 @@ public class SearchTest extends BaseTest {
 
     @Test
     public void searchTest() {
-        searchPage.search(SEARCH_INPUT);
+        String searchInput = ConfigReader.get("search.input");
+        searchPage.search(searchInput);
         Assert.assertTrue("Search results headline should be visible!", searchPage.isSearchOk());
     }
 }
