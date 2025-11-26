@@ -9,6 +9,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import pages.BasePage;
@@ -24,8 +25,11 @@ public class BaseTest {
     protected static WebDriver driver;
     protected static BasePage basePage;
 
-    protected static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(20);
+    public static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(20);
 
+    protected static boolean isCiEnvironment() {
+        return System.getenv("GITHUB_ACTIONS") != null;
+    }
 
     @Rule
     public TestName testName = new TestName();
@@ -45,7 +49,6 @@ public class BaseTest {
         }
     };
 
-
     @BeforeClass
     public static void beforeClass() throws Exception {
         String browser = ConfigReader.get("browser");
@@ -54,18 +57,37 @@ public class BaseTest {
             case "firefox":
                 driver = new FirefoxDriver();
                 break;
+
             case "edge":
                 driver = new EdgeDriver();
                 break;
+
             case "chrome":
             default:
-                driver = new ChromeDriver();
+                ChromeOptions options = new ChromeOptions();
+
+                if (isCiEnvironment()) {
+                    // CI → headless
+                    options.addArguments("--headless=new");
+                    options.addArguments("--disable-gpu");
+                    options.addArguments("--no-sandbox");
+                    options.addArguments("--disable-dev-shm-usage");
+                    options.addArguments("--window-size=1920,1080");
+                    System.out.println("Running in CI → HEADLESS MODE");
+                } else {
+                    // Local Windows → headed mode
+                    options.addArguments("--start-maximized");
+                    System.out.println("Running locally → HEADED MODE");
+                }
+
+                driver = new ChromeDriver(options);
                 break;
         }
 
         driver.manage().window().maximize();
         driver.manage().timeouts().pageLoadTimeout(DEFAULT_TIMEOUT);
         driver.manage().timeouts().scriptTimeout(DEFAULT_TIMEOUT);
+
         basePage = new BasePage(driver, DEFAULT_TIMEOUT);
     }
 
@@ -81,12 +103,9 @@ public class BaseTest {
 
     @After
     public void tearDown() throws Exception {
-        if (testFailed) {
-            takeScreenshot();
-        }
+        if (testFailed) takeScreenshot();
         driver.manage().deleteAllCookies();
     }
-
 
     private void takeScreenshot() {
         try {
@@ -95,21 +114,11 @@ public class BaseTest {
 
             String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             String currentTestName = testName.getMethodName();
-            String fileName = currentTestName + "_" + timestamp + ".png";
+            File destination = new File("screenshots/" + currentTestName + "_" + timestamp + ".png");
 
-            String screenshotFolder = "screenshots/";
-            File folder = new File(screenshotFolder);
-            if (!folder.exists()) {
-                folder.mkdirs();
-            }
-
-            File destination = new File(screenshotFolder + fileName);
+            destination.getParentFile().mkdirs();
             FileUtils.copyFile(source, destination);
 
-            System.out.println("Screenshot saved: " + destination.getAbsolutePath());
-
-        } catch (Exception e) {
-            System.out.println("Failed to take screenshot: " + e.getMessage());
-        }
+        } catch (Exception ignored) {}
     }
 }

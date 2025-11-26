@@ -18,6 +18,12 @@ public class ConfigReader {
     }
 
     public static String get(String key) {
+        // First try environment variables (for CI/CD)
+        String envValue = System.getenv(key.toUpperCase().replace(".", "_"));
+        if (envValue != null) {
+            return envValue;
+        }
+        // Fall back to config file (for local)
         return properties.getProperty(key);
     }
 }

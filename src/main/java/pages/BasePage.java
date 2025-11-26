@@ -39,8 +39,19 @@ public class BasePage {
 
     //    Navigation
     public void navigateTo(String url) {
+        for (int i = 0; i < 3; i++) {
+            try {
+                driver.get(url);
+                waitForPageToLoad();
+                return;
+            } catch (Exception e) {
+                sleep(1500);
+            }
+        }
         driver.get(url);
         waitForPageToLoad();
+        sleep(500);
+        closeGdprIfVisible();
     }
 
 
@@ -54,7 +65,14 @@ public class BasePage {
 
     //    Element actions (with built-in waits)
     public void click(By locator) {
-        wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
+        closeGdprIfVisible();  // <-- force close before clicking
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+        try {
+            element.click();
+        } catch (ElementClickInterceptedException e) {
+            // try JS click as fallback
+            js.executeScript("arguments[0].click();", element);
+        }
     }
 
     public void type(By locator, String text) {
@@ -229,10 +247,11 @@ public class BasePage {
 
     public void closeGdprIfVisible() {
         try {
-            WebElement box = driver.findElement(gdprBox);
+            WebElement box = driver.findElement(By.id("gdpr-box"));
             if (box.isDisplayed()) {
-                box.findElement(gdprCloseButton).click();
-                wait.until(ExpectedConditions.invisibilityOfElementLocated(gdprBox));
+                WebElement closeBtn = box.findElement(By.cssSelector(".close-gdpr"));
+                closeBtn.click();
+                wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("gdpr-box")));
             }
         } catch (Exception ignored) {}
     }

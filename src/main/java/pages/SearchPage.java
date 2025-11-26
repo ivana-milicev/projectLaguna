@@ -35,6 +35,8 @@ public class SearchPage extends BasePage {
 
     public void selectProduct(String product) {
         waitForVisible(productTitle(product));
+        scrollToElement(productTitle(product));
+        sleep(300);
         click(productTitle(product));
     }
 }

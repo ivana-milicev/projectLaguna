@@ -29,9 +29,9 @@ public class CartPage extends BasePage {
 //    Methods:
 
     public boolean isProductInCart(String product) {
-        return isDisplayed(productInCart(product));
+        waitForVisible(productInCart(product));
+        return isPresent(productInCart(product));
     }
-
 
     public void clickOnNextButton() {
         closeGdprIfVisible();
@@ -48,6 +48,7 @@ public class CartPage extends BasePage {
     }
 
     public void clickOkToRemove(String product) {
+        closeGdprIfVisible();
         click(okButton);
         waitForInvisible(productInCart(product));
     }

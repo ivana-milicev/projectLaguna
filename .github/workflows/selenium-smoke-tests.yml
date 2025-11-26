@@ -6,7 +6,6 @@ on:
     # Using 5:00 AM UTC as baseline (adjust for daylight saving if needed)
     - cron: '0 5 * * *'
 
-  # Allows manual trigger from GitHub Actions tab
   workflow_dispatch:
 
 jobs:
@@ -22,6 +21,13 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+
+      - name: Force Java 17 as default
+        run: |
+          echo "JAVA_HOME=$JAVA_HOME_17_X64" >> $GITHUB_ENV
+          echo "$JAVA_HOME_17_X64/bin" >> $GITHUB_PATH
+          java -version
+          mvn -version
 
       - name: Cache Maven packages
         uses: actions/cache@v4
