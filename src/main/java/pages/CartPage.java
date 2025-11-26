@@ -50,11 +50,34 @@ public class CartPage extends BasePage {
     public void clickOkToRemove(String product) {
         closeGdprIfVisible();
         click(okButton);
-        waitForInvisible(productInCart(product));
+
+        // Wait for the removal to process
+        sleep(1000);
+
+        // Wait for the product to be removed with retry logic
+        int maxAttempts = 10;
+        for (int i = 0; i < maxAttempts; i++) {
+            if (!isPresent(productInCart(product))) {
+                return; // Product successfully removed
+            }
+            sleep(500); // Wait 500ms before checking again
+        }
     }
 
     public boolean isProductRemoved(String product) {
-        waitForInvisible(productInCart(product));
+        // Give it extra time to ensure removal is complete
+        sleep(1000);
+
+        // Check multiple times with retries
+        int maxAttempts = 5;
+        for (int i = 0; i < maxAttempts; i++) {
+            if (!isPresent(productInCart(product))) {
+                return true; // Product is removed
+            }
+            sleep(500); // Wait before next check
+        }
+
+        // Final check
         return !isPresent(productInCart(product));
     }
 
