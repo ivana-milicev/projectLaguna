@@ -1,29 +1,29 @@
 package util;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class ConfigReader {
 
-    private static Properties properties = new Properties();
+    private static final Properties properties = new Properties();
 
     static {
-        try {
-            FileInputStream input = new FileInputStream("src/test/resources/config.properties");
-            properties.load(input);
-        } catch (IOException e) {
+        try (InputStream inputStream = ConfigReader.class
+                .getClassLoader()
+                .getResourceAsStream("config.properties")) {
+
+            if (inputStream == null) {
+                throw new RuntimeException("config.properties not found in classpath!");
+            }
+
+            properties.load(inputStream);
+
+        } catch (Exception e) {
             throw new RuntimeException("Could not load config.properties file!", e);
         }
     }
 
     public static String get(String key) {
-        // First try environment variables (for CI/CD)
-        String envValue = System.getenv(key.toUpperCase().replace(".", "_"));
-        if (envValue != null) {
-            return envValue;
-        }
-        // Fall back to config file (for local)
         return properties.getProperty(key);
     }
 }
