@@ -32,6 +32,9 @@ jobs:
       - name: Install Chrome
         uses: browser-actions/setup-chrome@v1
 
+      - name: Setup configuration for CI
+        run: cp src/test/resources/config.properties.example src/test/resources/config.properties
+
       - name: Run Smoke Tests
         env:
           # Authentication
