@@ -46,23 +46,11 @@ public class ConfigReader {
             // 3️⃣ Set defaults if nothing was loaded
             if (properties.getProperty("browser") == null) {
                 properties.setProperty("browser", "chrome");
-                System.out.println("No browser configured, defaulting to Chrome");
             }
 
             if (properties.getProperty("base.url") == null) {
                 properties.setProperty("base.url", "https://laguna.rs/");
             }
-
-            // Debug: Print loaded configuration (without passwords)
-            System.out.println("=== Configuration Loaded ===");
-            for (String key : properties.stringPropertyNames()) {
-                if (key.toLowerCase().contains("password")) {
-                    System.out.println(key + " = [HIDDEN]");
-                } else {
-                    System.out.println(key + " = " + properties.getProperty(key));
-                }
-            }
-            System.out.println("===========================");
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to load configuration!", e);

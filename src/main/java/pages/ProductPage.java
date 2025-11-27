@@ -58,8 +58,17 @@ public class ProductPage extends BasePage {
     }
 
     public boolean wasItemAddedToCart(int expectedCount) {
-        int actualCount = getCartCount();
-        return actualCount == expectedCount;
+        int maxAttempts = 10;
+        for (int i = 0; i < maxAttempts; i++) {
+            int actualCount = getCartCount();
+            if (actualCount == expectedCount) {
+                return true;
+            }
+            sleep(500);
+        }
+
+        int finalCount = getCartCount();
+        return finalCount == expectedCount;
     }
 
 }
