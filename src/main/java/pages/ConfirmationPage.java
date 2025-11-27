@@ -40,9 +40,13 @@ public class ConfirmationPage extends BasePage {
 
     public void clickOnPaymentButton() {
         closeGdprIfVisible();
-        WebElement pay = find(paymentButton);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", pay);
-        click(paymentButton);
+        WebElement paymentBtn = waitForVisible(paymentButton);
+        js.executeScript("arguments[0].scrollIntoView({block:'center'});", paymentBtn);
+        sleep(500);
+
+        jsClick(paymentButton);
+
+        sleep(2000);
     }
 
 }

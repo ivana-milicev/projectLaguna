@@ -10,15 +10,21 @@ public class ConfigReader {
     static {
         try {
             // 1️⃣ Load environment variables (GitHub Actions)
-            String email = System.getenv("VALID_EMAIL");
-            String password = System.getenv("VALID_PASSWORD");
-            String baseUrl = System.getenv("BASE_URL");
-            String browser = System.getenv("BROWSER");
-
-            if (email != null) properties.setProperty("valid.email", email);
-            if (password != null) properties.setProperty("valid.password", password);
-            if (baseUrl != null) properties.setProperty("base.url", baseUrl);
-            if (browser != null) properties.setProperty("browser", browser);
+            loadEnvironmentVariable("VALID_EMAIL", "valid.email");
+            loadEnvironmentVariable("VALID_PASSWORD", "valid.password");
+            loadEnvironmentVariable("INVALID_EMAIL", "invalid.email");
+            loadEnvironmentVariable("INVALID_PASSWORD", "invalid.password");
+            loadEnvironmentVariable("BASE_URL", "base.url");
+            loadEnvironmentVariable("BROWSER", "browser");
+            loadEnvironmentVariable("SEARCH_INPUT", "search.input");
+            loadEnvironmentVariable("PRODUCT_TITLE", "product.title");
+            loadEnvironmentVariable("BUYER_NAME", "buyer.name");
+            loadEnvironmentVariable("BUYER_EMAIL", "buyer.email");
+            loadEnvironmentVariable("BUYER_COUNTRY", "buyer.country");
+            loadEnvironmentVariable("BUYER_PHONE", "buyer.phone");
+            loadEnvironmentVariable("BUYER_STREET", "buyer.street");
+            loadEnvironmentVariable("BUYER_STREET_NUMBER", "buyer.streetNumber");
+            loadEnvironmentVariable("BUYER_CITY", "buyer.city");
 
             // 2️⃣ Load local config.properties (for local runs)
             InputStream input = ConfigReader.class.getClassLoader()
@@ -34,6 +40,7 @@ public class ConfigReader {
                         properties.setProperty(key, fileProps.getProperty(key));
                     }
                 }
+                input.close();
             }
 
             // 3️⃣ Set defaults if nothing was loaded
@@ -46,12 +53,34 @@ public class ConfigReader {
                 properties.setProperty("base.url", "https://laguna.rs/");
             }
 
+            // Debug: Print loaded configuration (without passwords)
+            System.out.println("=== Configuration Loaded ===");
+            for (String key : properties.stringPropertyNames()) {
+                if (key.toLowerCase().contains("password")) {
+                    System.out.println(key + " = [HIDDEN]");
+                } else {
+                    System.out.println(key + " = " + properties.getProperty(key));
+                }
+            }
+            System.out.println("===========================");
+
         } catch (Exception e) {
             throw new RuntimeException("Failed to load configuration!", e);
         }
     }
 
+    private static void loadEnvironmentVariable(String envVar, String propertyKey) {
+        String value = System.getenv(envVar);
+        if (value != null && !value.isEmpty()) {
+            properties.setProperty(propertyKey, value);
+        }
+    }
+
     public static String get(String key) {
-        return properties.getProperty(key);
+        String value = properties.getProperty(key);
+        if (value == null) {
+            System.err.println("WARNING: Property '" + key + "' is null!");
+        }
+        return value;
     }
 }
