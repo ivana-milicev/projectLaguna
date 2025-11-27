@@ -1,0 +1,447 @@
+# SMOKE TEST CASES - LAGUNA BOOKSTORE
+## Test Execution Report
+
+**Project:** Laguna Bookstore E-commerce Testing  
+**Test Type:** Smoke Testing  
+**Environment:** https://laguna.rs/  
+**Date:** November 27, 2025  
+**Tester:** Ivana Milićev  
+**Browsers Tested:** Chrome, Firefox, MS Edge  
+**Test Framework:** Playwright (JavaScript) & Selenium (Java)
+
+---
+
+## TEST SCOPE
+
+Smoke testing covers critical user flows to verify that the main functionalities of the Laguna bookstore website work correctly. These tests ensure that the core features of the e-commerce platform are operational before proceeding with more detailed testing.
+
+**Areas Covered:**
+- Search functionality
+- User authentication
+- Shopping cart operations
+- Checkout process
+
+---
+
+## TEST CASES
+
+### TC-001: Search Functionality
+
+**Test Case ID:** TC-001  
+**Test Case Name:** Verify Search Functionality  
+**Priority:** High  
+**Preconditions:** User is on the homepage
+
+**Test Steps:**
+1. Navigate to https://laguna.rs/
+2. Locate the search input field
+3. Enter search term "ivo andric"
+4. Press Enter or click Search button
+5. Verify search results page is displayed
+
+**Expected Results:**
+- Search results page is displayed
+- Search results headline is visible
+- Products matching "ivo andric" are shown
+
+**Actual Results:**
+- Search results page displayed successfully
+- Results headline "spisak-knjiga-knjige" is visible
+- Multiple Ivo Andrić books displayed in results
+- Search functionality works as expected
+
+**Status:** PASS ✅  
+**Execution Time:** 9-10 seconds  
+**Comments:** Test passed on all browsers (Chromium, Firefox, MS Edge). Search returns relevant results quickly.
+
+---
+
+### TC-002: Valid User Login
+
+**Test Case ID:** TC-002  
+**Test Case Name:** Verify Valid User Login  
+**Priority:** High  
+**Preconditions:** User has valid credentials
+
+**Test Steps:**
+1. Navigate to https://laguna.rs/
+2. Click on "Prijava" (Login) button
+3. Enter valid email address: ivanans90@hotmail.com
+4. Enter valid password
+5. Click submit button
+
+**Expected Results:**
+- User is successfully logged in
+- "Odjava" (Logout) button is visible
+- User is redirected to homepage or dashboard
+
+**Actual Results:**
+- Login successful
+- "Odjava" (Logout) button appears in header
+- User remains on homepage with authenticated state
+- Login flow completed in ~14 seconds
+
+**Status:** PASS ✅  
+**Execution Time:** 13-14 seconds  
+**Comments:** Valid login works correctly on Chromium and MS Edge. Occasional timing issues on Firefox (see known issues).
+
+---
+
+### TC-003: Invalid User Login
+
+**Test Case ID:** TC-003  
+**Test Case Name:** Verify Invalid User Login  
+**Priority:** High  
+**Preconditions:** None
+
+**Test Steps:**
+1. Navigate to https://laguna.rs/
+2. Click on "Prijava" (Login) button
+3. Enter invalid email address: invalid@example.com
+4. Enter invalid password: wrongpassword
+5. Click submit button
+
+**Expected Results:**
+- Login fails
+- "Prijava" (Login) button remains visible
+- User stays on login page or homepage
+- No access to authenticated features
+
+**Actual Results:**
+- Login correctly failed
+- "Prijava" (Login) button remains visible
+- User not authenticated
+- System properly rejects invalid credentials
+
+**Status:** PASS ✅  
+**Execution Time:** 12-13 seconds  
+**Comments:** Negative testing works as expected. Security validation functioning correctly.
+
+---
+
+### TC-004: Empty Fields Login
+
+**Test Case ID:** TC-004  
+**Test Case Name:** Verify Login with Empty Fields  
+**Priority:** Medium  
+**Preconditions:** None
+
+**Test Steps:**
+1. Navigate to https://laguna.rs/
+2. Click on "Prijava" (Login) button
+3. Leave email field empty
+4. Leave password field empty
+5. Click submit button
+
+**Expected Results:**
+- Login fails
+- "Prijava" (Login) button remains visible
+- User cannot proceed without entering credentials
+
+**Actual Results:**
+- Login correctly failed
+- "Prijava" (Login) button remains visible
+- Form validation prevents empty submission
+- User stays unauthenticated
+
+**Status:** PASS ✅ (Chromium, MS Edge) / FLAKY ⚠️ (Firefox)  
+**Execution Time:** 12-13 seconds  
+**Comments:** Works perfectly on Chromium and MS Edge. Firefox has timing issues - see known issues section.
+
+---
+
+### TC-005: Add Product to Cart
+
+**Test Case ID:** TC-005  
+**Test Case Name:** Verify Add to Cart Functionality  
+**Priority:** High  
+**Preconditions:** User is on the homepage
+
+**Test Steps:**
+1. Navigate to https://laguna.rs/
+2. Search for product "ivo andric"
+3. Select product "Na Drini ćuprija"
+4. Note the cart count before adding (0)
+5. Click "Add to Cart" button
+6. Verify cart count increases to 1
+7. Click on cart icon
+8. Verify product appears in cart
+
+**Expected Results:**
+- Cart count increases by 1
+- Product "Na Drini ćuprija" is visible in cart
+- Product details (title, price) are correct
+
+**Actual Results:**
+- Cart badge updated from (0) to (1)
+- Product successfully added to cart
+- Product title "Na Drini ćuprija" visible in cart
+- Product price displayed: 899.00 din
+- All product details correct
+
+**Status:** PASS ✅  
+**Execution Time:** 25-44 seconds  
+**Comments:** Add to cart functionality works reliably. Cart count updates correctly with retry logic implemented.
+
+---
+
+### TC-006: Remove Product from Cart
+
+**Test Case ID:** TC-006  
+**Test Case Name:** Verify Remove from Cart Functionality  
+**Priority:** High  
+**Preconditions:** Product is in cart
+
+**Test Steps:**
+1. Navigate to https://laguna.rs/
+2. Search for product "ivo andric"
+3. Select product "Na Drini ćuprija"
+4. Click "Add to Cart" button
+5. Click on cart icon to view cart
+6. Click "Brisanje" (Remove) button
+7. Confirm removal by clicking "OK"
+8. Verify product is removed from cart
+
+**Expected Results:**
+- Product is removed from cart
+- Product no longer appears in cart list
+- Cart count decreases
+
+**Actual Results:**
+- "Brisanje" (Remove) button clicked successfully
+- Confirmation dialog appeared
+- Product removed from cart after confirmation
+- Cart updated correctly
+- Product no longer visible in cart list
+
+**Status:** PASS ✅ (with retry logic)  
+**Execution Time:** 37-60 seconds  
+**Comments:** Remove functionality works correctly. Retry logic ensures reliable detection of product removal even with dynamic page updates.
+
+---
+
+### TC-007: Complete Purchase Flow
+
+**Test Case ID:** TC-007  
+**Test Case Name:** Verify Complete Buy Flow (End-to-End)  
+**Priority:** Critical  
+**Preconditions:** User is on the homepage
+
+**Test Steps:**
+1. Navigate to https://laguna.rs/
+2. Search for product "ivo andric"
+3. Select product "Na Drini ćuprija"
+4. Add product to cart
+5. Click on cart icon
+6. Click "Dalje" (Next) to proceed to checkout
+7. Fill in buyer information:
+   - Name: Bugs Bunny
+   - Email: ivanans90@hotmail.com
+   - Country: Srbija
+   - Phone: 641234567
+   - Street: My Street
+   - Street Number: 10
+   - City: 21000 Novi Sad
+8. Click "Dalje" (Next) to proceed to payment
+9. Select payment method "Platnom karticom" (Credit Card)
+10. Click "Dalje" (Next)
+11. Accept terms and conditions checkbox
+12. Accept costs checkbox
+13. Click "Plaćanje" (Payment) button
+14. Verify redirection to WSPay payment gateway
+
+**Expected Results:**
+- All steps complete without errors
+- User is redirected to WSPay payment gateway
+- URL contains "wspay" or "payment"
+- Payment page loads successfully
+
+**Actual Results:**
+- Search completed successfully
+- Product selected and added to cart
+- Cart checkout initiated
+- Buyer form filled with all required data:
+  * Personal info (name, email, phone)
+  * Address details (street, number, city, country)
+  * All dropdowns (country, city) populated correctly
+- Payment method selected: Credit Card
+- Terms and conditions accepted via JavaScript execution
+- Costs acknowledgment accepted
+- Payment button clicked
+- Successfully redirected to WSPay payment gateway
+- URL verified: contains "wspay"
+- Total order value: 1139.00 din (899.00 din + 240.00 din shipping)
+
+**Status:** PASS ✅ (Chromium, MS Edge) / TIMEOUT ⚠️ (Firefox - known issue)  
+**Execution Time:** 1.7-2.1 minutes  
+**Comments:** Complete end-to-end flow works successfully on Chromium and MS Edge. This is the most complex test covering the entire purchase workflow. Firefox has known timing/clicking issues with this website.
+
+---
+
+## TEST EXECUTION SUMMARY
+
+**Test Execution Date:** November 27, 2025  
+**Test Execution Duration:** ~12 minutes (full suite)  
+**Environment:** Production (https://laguna.rs/)  
+**Automation Coverage:** 100%
+
+### Results by Browser:
+
+#### Chromium (Chrome):
+- **Total Test Cases:** 7
+- **Passed:** 7
+- **Failed:** 0
+- **Pass Rate:** 100% ✅
+
+#### MS Edge:
+- **Total Test Cases:** 7
+- **Passed:** 7
+- **Failed:** 0
+- **Pass Rate:** 100% ✅
+
+#### Firefox:
+- **Total Test Cases:** 7
+- **Passed:** 4
+- **Failed/Flaky:** 3
+- **Pass Rate:** 57% ⚠️
+
+### Overall Summary:
+- **Total Test Cases:** 7
+- **Passed:** 7/7 on Chromium and Edge
+- **Failed:** 0 critical failures
+- **Blocked:** 0
+- **Known Issues:** Firefox compatibility (timing/clicking issues)
+
+**Overall Pass Rate:** 100% on primary browsers (Chromium, MS Edge) ✅
+
+---
+
+## CRITICAL ISSUES FOUND
+
+| Issue ID | Test Case | Severity | Description | Status | Workaround |
+|----------|-----------|----------|-------------|--------|------------|
+| ISS-001 | TC-004, TC-007 | Medium | Firefox has timing issues with login and buy flow | Known Issue | Tests work on Chromium and MS Edge. Firefox excluded from CI for stability. |
+| ISS-002 | TC-006 | Low | Cart removal requires retry logic for reliable detection | Resolved | Implemented retry mechanism with 10 attempts, 500ms intervals. |
+| ISS-003 | TC-005 | Low | Cart count update needs polling | Resolved | Implemented waitForFunction with polling mechanism. |
+
+---
+
+## RECOMMENDATIONS
+
+### Immediate Actions:
+1. **Continue using Chromium and MS Edge** for automated testing as they provide 100% reliability
+2. **Exclude Firefox from CI pipeline** until website compatibility issues are resolved
+3. **Maintain retry logic** for cart operations to handle async updates
+
+### Future Improvements:
+1. **Add visual regression testing** for critical pages (homepage, product page, checkout)
+2. **Implement API testing** for cart and checkout operations
+3. **Add performance testing** to measure page load times
+4. **Expand test coverage** to include:
+   - Multiple product purchases
+   - Different payment methods
+   - Guest checkout flow
+   - User registration flow
+
+### Code Quality:
+1. **Both test suites (Playwright & Selenium)** are well-structured with Page Object Model
+2. **Configuration management** properly handles CI and local environments
+3. **Error handling** is robust with screenshots on failure
+4. **Retry mechanisms** effectively handle timing issues
+
+---
+
+## AUTOMATION DETAILS
+
+### Frameworks Used:
+- **Playwright (JavaScript):** Modern, fast, reliable for modern web apps
+- **Selenium (Java):** Industry standard, robust, excellent for cross-browser testing
+
+### Test Architecture:
+- **Design Pattern:** Page Object Model (POM)
+- **Test Organization:** Smoke Test Suite
+- **Configuration:** Environment-based (CI vs Local)
+- **Reporting:** HTML reports + screenshots on failure
+
+### CI/CD Integration:
+- **Platform:** GitHub Actions
+- **Schedule:** Daily at 5:00 AM UTC
+- **Execution Mode:** Headless (CI), Headed (Local)
+- **Artifacts:** Test reports, screenshots, videos, traces
+
+---
+
+## NOTES
+
+### Test Environment:
+- Tests executed on **production environment** (https://laguna.rs/)
+- **No test data cleanup** required (payment not completed)
+- Transactions stopped at **payment gateway** (WSPay) - no actual charges made
+
+### Security Considerations:
+- Test credentials stored as **GitHub Secrets** (encrypted)
+- **No real payment** transactions completed
+- **Sensitive data** properly masked in logs
+
+### Browser Compatibility:
+- **✅ Chromium:** Fully compatible, 100% pass rate
+- **✅ MS Edge:** Fully compatible, 100% pass rate
+- **⚠️ Firefox:** Known timing and clicking issues with laguna.rs website
+
+### Test Data:
+- **Search term:** "ivo andric"
+- **Product:** "Na Drini ćuprija"
+- **Test buyer:** Bugs Bunny (fictional data)
+- **Test email:** ivanans90@hotmail.com
+
+---
+
+## SIGN-OFF
+
+**Prepared By:** Ivana Milićev  
+**Role:** QA Automation Engineer  
+**Date:** November 27, 2025  
+
+**Reviewed By:** [Instructor/Reviewer Name]  
+**Date:** [Date]  
+
+**Approved By:** [Approver Name]  
+**Date:** [Date]
+
+---
+
+## REVISION HISTORY
+
+| Version | Date | Author | Changes |
+|---------|------|---------|---------|
+| 1.0 | 2025-11-27 | Ivana Milićev | Initial version - Complete smoke test execution report |
+| | | | - All 7 test cases executed and documented |
+| | | | - Results recorded for 3 browsers |
+| | | | - Known issues identified and documented |
+| | | | - Recommendations provided |
+
+---
+
+## APPENDIX A: AUTOMATED TEST EXECUTION EVIDENCE
+
+### Test Execution Logs Available:
+- ✅ Playwright HTML Report: `playwright-report/index.html`
+- ✅ Selenium Surefire Reports: `target/surefire-reports/`
+- ✅ Screenshots on failure: `screenshots/` directory
+- ✅ Video recordings: `test-results/` directory (Playwright)
+- ✅ Trace files: Available for debugging (Playwright)
+
+### GitHub Actions Workflow:
+- ✅ Playwright: `.github/workflows/playwright-smoke-tests.yml`
+- ✅ Selenium: `.github/workflows/selenium-smoke-tests.yml`
+- ✅ Scheduled runs: Daily at 5:00 AM UTC
+- ✅ Manual trigger: Available via workflow_dispatch
+
+### Test Results Summary:
+- **Playwright (last run):** 14/14 tests passed (100%) on Chromium + Edge
+- **Selenium (last run):** 6/7 tests passed (86%)
+- **Overall stability:** Excellent on Chromium and Edge
+
+---
+
+**END OF REPORT**

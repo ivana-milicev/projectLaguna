@@ -1,0 +1,241 @@
+SMOKE TEST CASES - LAGUNA BOOKSTORE
+
+
+Project: Laguna Bookstore E-commerce Testing  
+Test Type: Smoke Testing  
+Environment: https://laguna.rs/  
+Date: November 25, 2025  
+Tester: Ivana Milićev  
+Browsers Tested: Chrome, Firefox, MS Edge  
+Test Framework: Selenium (Java) & Playwright (JavaScript)
+
+
+* TEST SCOPE
+
+Smoke testing covers critical user flows to verify that the main functionalities of the Laguna bookstore website work correctly.
+These tests ensure that the core features of the e-commerce platform are operational before proceeding with more detailed testing.
+
+Areas Covered:
+- Search functionality
+- Login functionality
+- Complete buy flow (payment excluded)
+- Checkout process(payment excluded)
+
+
+* TEST CASES
+
+  1. Search Functionality
+
+Test Case ID: TC-001  
+Test Case Name: Verify Search Functionality  
+Priority: High  
+Preconditions: User is on the homepage
+
+Test Steps:
+1. Navigate to https://laguna.rs/
+2. Locate the search input field
+3. Enter search term "ivo andric"
+4. Press Enter or click Search button
+5. Verify search results page is displayed
+
+Expected Results:
+- Search results page is displayed
+- Search results headline is visible
+- Products matching "ivo andric" are shown
+
+Actual Results:
+- Search results page displayed successfully
+- Results headline "spisak-knjiga-knjige" is visible
+- Multiple Ivo Andrić books displayed in results
+- Search functionality works as expected
+
+
+  2. Valid User Login
+
+Test Case ID: TC-002  
+Test Case Name: Valid User Login  
+Priority: High  
+Preconditions: User has valid credentials
+
+Test Steps:
+1. Navigate to https://laguna.rs/
+2. Click on "Prijava" (Login) button
+3. Enter valid email address: ivanans90@hotmail.com
+4. Enter valid password
+5. Click submit button
+
+Expected Results:
+- User is successfully logged in
+- "Odjava" (Logout) button is visible
+- User is redirected to homepage or dashboard
+
+Actual Results:
+- Login successful
+- "Odjava" (Logout) button appears in header
+- User remains on homepage with authenticated state
+- Login flow completed
+
+
+  3. TC-003: Invalid User Login
+
+Test Case ID: TC-003  
+Test Case Name: Invalid User Login  
+Priority: High  
+Preconditions: None
+
+Test Steps:
+1. Navigate to https://laguna.rs/
+2. Click on "Prijava" (Login) button
+3. Enter invalid email address: invalid@example.com
+4. Enter invalid password: wrongpassword
+5. Click submit button
+
+Expected Results:
+- Login fails
+- "Prijava" (Login) button remains visible
+- User remains on homepage/searchpage unlogged
+
+Actual Results:
+- Login correctly failed
+- "Prijava" (Login) button remains visible
+- User not authenticated
+- System properly rejects invalid credentials
+
+
+  4. TC-004: Empty Fields Login
+
+Test Case ID: TC-004  
+Test Case Name: Login with Empty Fields  
+Priority: Medium  
+Preconditions: None
+
+Test Steps:
+1. Navigate to https://laguna.rs/
+2. Click on "Prijava" (Login) button
+3. Leave email field empty
+4. Leave password field empty
+5. Click submit button
+
+Expected Results:
+- Login fails
+- "Prijava" (Login) button remains visible
+- User remains on homepage/searchpage unlogged
+
+Actual Results:
+- Login correctly failed
+- "Prijava" (Login) button remains visible
+- Form validation prevents empty submission
+- User not authenticated
+- System properly rejects empty spaces as credentials
+
+
+  5. TC-005: Add Product to Cart
+
+Test Case ID: TC-005  
+Test Case Name: Verify Add to Cart Functionality  
+Priority: High  
+Preconditions: User is on the homepage
+
+Test Steps:
+1. Navigate to https://laguna.rs/
+2. Search for product "ivo andric"
+3. Select product "Na Drini ćuprija"
+4. Note the cart count before adding (0)
+5. Click "Add to Cart" button
+6. Verify cart count increases to 1
+7. Click on cart icon
+8. Verify product appears in cart
+
+Expected Results:
+- Cart count increases by 1
+- Product "Na Drini ćuprija" is visible in cart
+- Product details (title, price) are correct
+
+Actual Results:
+- Cart badge updated from (0) to (1)
+- Product successfully added to cart
+- Product title "Na Drini ćuprija" visible in cart
+- Product price displayed: 899.00 din
+- All product details correct
+
+
+  6. TC-006: Remove Product from Cart
+
+Test Case ID: TC-006  
+Test Case Name: Verify Remove from Cart Functionality  
+Priority: High  
+Preconditions: Product is in cart
+
+Test Steps:
+1. Navigate to https://laguna.rs/
+2. Search for product "ivo andric"
+3. Select product "Na Drini ćuprija"
+4. Click "Add to Cart" button
+5. Click on cart icon to view cart
+6. Click "Brisanje" (Remove) button
+7. Confirm removal by clicking "OK"
+8. Verify product is removed from cart
+
+Expected Results:
+- Product is removed from cart
+- Product no longer appears in cart list
+- Cart count decreases
+
+Actual Results:
+- "Brisanje" (Remove) button clicked successfully
+- Confirmation dialog appeared
+- Product removed from cart after confirmation
+- Cart updated correctly
+- Product no longer visible in cart list
+
+
+  7. TC-007: Complete Purchase Flow
+
+Test Case ID: TC-007  
+Test Case Name: Verify Complete Buy Flow (End-to-End)  
+Priority: Critical  
+Preconditions: User is on the homepage
+
+Test Steps:
+1. Navigate to https://laguna.rs/
+2. Search for product "ivo andric"
+3. Select product "Na Drini ćuprija"
+4. Add product to cart
+5. Click on cart icon
+6. Click "Dalje" (Next) to proceed to checkout
+7. Fill in buyer information:
+   - Name: Bugs Bunny
+   - Email: ivanans90@hotmail.com
+   - Country: Srbija
+   - Phone: 641234567
+   - Street: My Street
+   - Street Number: 10
+   - City: 21000 Novi Sad
+8. Click "Dalje" (Next) to proceed to payment
+9. Select payment method "Platnom karticom" (Credit Card)
+10. Click "Dalje" (Next)
+11. Accept terms and conditions checkbox
+12. Accept costs checkbox
+13. Click "Plaćanje" (Payment) button
+14. Verify redirection to WSPay payment gateway
+
+Expected Results:
+- All steps complete without errors
+- User is redirected to WSPay payment gateway
+- URL contains "wspay" or "payment"
+- Payment page loads successfully
+
+Actual Results:
+- Search completed successfully
+- Product selected and added to cart
+- Cart checkout initiated
+- Buyer form filled with all required data:
+   Personal info (name, email, phone)
+   Address details (street, number, city, country)
+   All dropdowns (country, city) populated correctly
+- Payment method selected: Credit Card
+- Terms and conditions accepted via JavaScript execution
+- Costs acknowledgment accepted
+- Payment button clicked
+- Successfully redirected to WSPay payment gateway
+- URL verified: contains "wspay"

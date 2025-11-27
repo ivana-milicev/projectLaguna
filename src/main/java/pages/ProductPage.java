@@ -52,7 +52,6 @@ public class ProductPage extends BasePage {
 
             return 0;
         } catch (Exception e) {
-            e.printStackTrace();
             return 0;
         }
     }
@@ -64,7 +63,7 @@ public class ProductPage extends BasePage {
             if (actualCount == expectedCount) {
                 return true;
             }
-            sleep(500);
+            sleep(500); // Wait before next attempt
         }
 
         int finalCount = getCartCount();
